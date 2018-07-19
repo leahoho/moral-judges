@@ -1,0 +1,37 @@
+
+
+    <div class="container">
+        
+            
+            <div class="input-group mb-3"><div class="input-group-prepend"><button class="btn btn-outline-secondary" type="button">Search</button></div><input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1"></div>
+            <button class="btn btn-primary btn-large">Sort</button> 
+
+        <div class='jumbotron'>
+            <h1>Post home page (List of posts)</h1>
+            <p>See the posts !!</p>
+            <p><a class="btn btn-primary btn-large" href="/role">Add new Posts</a></p>
+        </div>
+
+
+        <div class="row text-center">
+            {{#each posts}}
+                <div class="col-md-3 col-sm-6">
+                    <div class="img-thumbnail" >
+                        <p>victim      2018-7-18 3am  </p>
+                        <div class="caption"><h4>{{ title }}</h4></div>
+                        {{#if image}}
+                        <img src="{{ image }}" class="img-thumbnail">
+                        {{/if}}
+                        {{!-- how to deal wif the content show ng show? (as discussed content shd show in postdetails instead of here) --}}
+                        <div class="caption"><h4>{{ content }}</h4></div>
+                        <p>v1234     x12    Advice33 </p>
+                        {{!-- the button so ugly, suppose no button(just show ju that can click into details) just click on the thumbnail --}}
+                        <button>Details</button>
+                    </div>
+                </div>
+            {{/each}}  
+        </div>
+    </div>
+
+
+ 
