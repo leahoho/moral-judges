@@ -1,22 +1,10 @@
-
-
+    
     <div class="container">
-        
-            
-            <div class="input-group mb-3"><div class="input-group-prepend"><button class="btn btn-outline-secondary" type="button">Search</button></div><input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1"></div>
-            <button class="btn btn-primary btn-large">由新到舊</button>
-            <button class="btn btn-primary btn-large">由舊到新</button> 
-            <button class="btn btn-primary btn-large">被害者先</button> 
-            <button class="btn btn-primary btn-large">受害者先</button> 
-            <button class="btn btn-primary btn-large">熱門先（用advice的數量恆量)</button> 
-            <button class="btn btn-primary btn-large">冷門先（用advice的數量恆量)</button> 
 
         <div class='jumbotron'>
-            <h1>Post home page (List of posts)</h1>
-            <p>See the posts !!</p>
-            <p><a class="btn btn-primary btn-large" href="/role">Add new Posts</a></p>
+            <h1>我收藏的帖子 (List of favourite)</h1>
+            <p>See the posts you starred !!</p>
         </div>
-
 
         <div class="row text-center">
             {{#each posts}}
@@ -28,18 +16,17 @@
                         {{#if image_path}}
                         <img src="{{ image_path }}" class="img-thumbnail">
                         {{/if}}
+                        {{!-- ~~how to deal wif the content show ng show? (as discussed content shd show in postdetails instead of here) --}}
                         <div class="caption"><p>{{ content }}</p></div>
                         <p>[no.of support]</p>
                         <p>[no. of disupport]</p>
                         <p>[no. of advices]</p>
+                        {{!-- ~~the button so ugly, suppose no button(just show ju that can click into details) just click on the thumbnail --}}
+                        {{!-- <button>Details</button> --}}
                         <button><a href="/posts/{{id}}">Details</a></button>
                     </div>
                 </div>
             {{/each}}  
-
-
         </div>
+
     </div>
-
-
- 
