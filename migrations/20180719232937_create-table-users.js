@@ -1,14 +1,16 @@
-
-exports.up = function(knex, Promise) {
-    return knex.schema.createTable('users', (table) => {
-        table.increments();
-        table.string("username");
-        table.string("password");
-        table.string("email");
-        table.timestamps(false, true);
-    });
+exports.up = (knex, Promise) => {
+  return knex.schema.createTable('users', table => {
+    table.increments();
+    table
+      .string('username')
+      .unique()
+      .notNullable();
+    table.string('password').notNullable();
+    table.string('email');
+    table.timestamps(false, true);
+  });
 };
 
-exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('users');
+exports.down = (knex, Promise) => {
+  return knex.schema.dropTable('users');
 };
