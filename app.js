@@ -1,54 +1,54 @@
-var express = require('express');
+var express = require("express");
 var app = express();
 
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
 // const passport = require('passport');
-const passport = require('./auth/local');
-const hb = require('express-handlebars');
-const fileUpload = require('express-fileupload');
+const passport = require("./auth/local");
+const hb = require("express-handlebars");
+const fileUpload = require("express-fileupload");
 
-const knex = require('knex')({
-  client: 'postgresql',
+const knex = require("knex")({
+  client: "postgresql",
   connection: {
-    database: 'db1',
-    user: 'postgres',
-    password: 'mj',
-  },
+    database: "db1",
+    user: "postgres",
+    password: "mj"
+  }
 });
 
-const authHelpers = require('./auth/_helpers');
+const authHelpers = require("./auth/_helpers");
 
-app.use(express.static(__dirname + '/public'));
-app.use('/images', express.static(__dirname + '/public'));
-var bodyParser = require('body-parser');
+app.use(express.static(__dirname + "/public"));
+app.use("/images", express.static(__dirname + "/public"));
+var bodyParser = require("body-parser");
 app.use(fileUpload());
 app.use(
   session({
-    secret: 'moral_secret!@#$',
+    secret: "moral_secret!@#$",
     resave: false,
-    saveUninitialized: true,
-  }),
+    saveUninitialized: true
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use(flash());
-app.engine('handlebars', hb({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+app.engine("handlebars", hb({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.render('login');
+app.get("/", (req, res) => {
+  res.render("login");
 });
 
-app.get('/login', (req, res) => {
-  res.render('login');
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
-app.get('/register', (req, res) => {
-  res.render('register');
+app.get("/register", (req, res) => {
+  res.render("register");
 });
 
 // app.post('/register', (req, res) => {
@@ -66,38 +66,38 @@ app.get('/register', (req, res) => {
 //     .catch(err => console.log('opppspsspsps', err));
 // });
 
-app.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+app.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
-      handleResponse(res, 500, 'error');
+      handleResponse(res, 500, "error");
     }
     if (!user) {
-      handleResponse(res, 404, 'User not found');
+      handleResponse(res, 404, "User not found");
     }
     if (user) {
       req.logIn(user, function(err) {
         if (err) {
-          handleResponse(res, 500, 'error');
+          handleResponse(res, 500, "error");
         }
         // handleResponse(res, 200, 'success');
-        res.redirect('/posts');
+        res.redirect("/posts");
       });
     }
   })(req, res, next);
 });
 
-app.post('/register', (req, res, next) => {
+app.post("/register", (req, res, next) => {
   return authHelpers
     .createUser(req, res)
     .then(response => {
-      passport.authenticate('local', (err, user, info) => {
+      passport.authenticate("local", (err, user, info) => {
         if (user) {
-          handleResponse(res, 200, 'success');
+          handleResponse(res, 200, "success");
         }
       })(req, res, next);
     })
     .catch(err => {
-      handleResponse(res, 500, 'error');
+      handleResponse(res, 500, "error");
     });
 });
 
@@ -109,18 +109,18 @@ function handleResponse(res, code, statusMsg) {
 //   res.render('login');
 // });
 
-app.get('/logout', authHelpers.loginRequired, (req, res, next) => {
+app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
   req.logout();
-  handleResponse(res, 200, 'success');
+  handleResponse(res, 200, "success");
 });
 
-app.get('/posts', authHelpers.loginRequired, (req, res) => {
+app.get("/posts", authHelpers.loginRequired, (req, res) => {
   // console.log('req user: ', req.user);
-  knex('posts')
+  knex("posts")
     .select()
     .then(posts => {
       // console.log(posts[0]);
-      res.render('posts', { posts: posts });
+      res.render("posts", { posts: posts });
     });
   /////```````inner join / groupby
   // const p1 =
@@ -145,21 +145,21 @@ app.get('/posts', authHelpers.loginRequired, (req, res) => {
   //     .catch(err => console.log(err));
 });
 
-app.get('/posts/:id', (req, res) => {
+app.get("/posts/:id", (req, res) => {
   const id = req.params.id;
-  if (typeof id != 'undefined') {
-    knex('posts')
+  if (typeof id != "undefined") {
+    knex("posts")
       .select()
-      .where('id', id)
+      .where("id", id)
       .then(details => {
         console.log(details);
-        res.render('postdetails', { details: details[0] });
+        res.render("postdetails", { details: details[0] });
       })
-      .catch(err => console.log('opppspsspsps', err));
+      .catch(err => console.log("opppspsspsps", err));
   } else {
     res.status(500);
-    res.render('error', {
-      message: 'Invalid id, no this users',
+    res.render("error", {
+      message: "Invalid id, no this users"
     });
   }
 });
@@ -183,44 +183,44 @@ app.get('/posts/:id', (req, res) => {
 //         }).catch(err => console.log("opppspsspsps", err))
 // });
 
-app.get('/role', (req, res) => {
-  res.render('role');
+app.get("/role", (req, res) => {
+  res.render("role");
 });
 
-app.get('/badass', authHelpers.loginRequired, (req, res) => {
-  res.render('badasscreate');
+app.get("/badass", authHelpers.loginRequired, (req, res) => {
+  res.render("badasscreate");
 });
 
-app.get('/victim', (req, res) => {
-  res.render('victimcreate');
+app.get("/victim", (req, res) => {
+  res.render("victimcreate");
 });
 
-app.get('/mypostlist', (req, res) => {
-  knex('posts')
+app.get("/mypostlist", (req, res) => {
+  knex("posts")
     .select()
     .then(posts => {
-      res.render('mypostlist', { posts: posts });
+      res.render("mypostlist", { posts: posts });
     });
 });
 
-app.get('/myadvice', (req, res) => {
-  res.render('myadvice');
+app.get("/myadvice", (req, res) => {
+  res.render("myadvice");
 });
 
-app.get('/myfavourite', (req, res) => {
-  knex('posts')
+app.get("/myfavourite", (req, res) => {
+  knex("posts")
     .select()
     .then(posts => {
-      res.render('myfavourite', { posts: posts });
+      res.render("myfavourite", { posts: posts });
     });
 });
 
-app.post('/upload', (req, res) => {
-  if (!req.files) return res.status(400).send('No files were uploaded.');
+app.post("/upload", (req, res) => {
+  if (!req.files) return res.status(400).send("No files were uploaded.");
 
   let inputFile = req.files.inputFile;
-  const filePath = 'images/' + inputFile.name;
-  inputFile.mv(filePath, function(err) {
+  const filePath = "images/" + inputFile.name;
+  inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
     if (err) return res.status(500).send(err);
 
     // console.log('upload req user: ', req.user);
@@ -229,7 +229,7 @@ app.post('/upload', (req, res) => {
       title: req.body.title,
       content: req.body.content,
       image_path: filePath,
-      user_id: req.user.id,
+      user_id: req.user.id
       // datetime: Date.now(),
     };
 
@@ -238,13 +238,13 @@ app.post('/upload', (req, res) => {
 
     knex
       .insert(data)
-      .into('posts')
+      .into("posts")
       .then(() => {
-        res.redirect('/posts');
+        res.redirect("/posts");
       })
       .catch(err => {
-        console.log('insert post error: ', err);
-        res.redirect('/posts');
+        console.log("insert post error: ", err);
+        res.redirect("/posts");
       });
   });
 });
