@@ -1,2 +1,41 @@
-
 /* body{background-color: blue} */
+
+.mainBg {
+  background: rgb(255, 255, 255);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+body {
+  background-color: #f1f2f2;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.topnav {
+  width: 100%;
+  background-color: #8d69f9;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.topnav a {
+  float: left;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
