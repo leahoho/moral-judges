@@ -136,17 +136,29 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
 });
 
 //update post detial
-app.get("/posts/:id", (req, res) => {
+app.get("/posts/:id", async (req, res) => {
   const id = req.params.id;
   if (typeof id != "undefined") {
-    knex("posts")
-      .select()
-      .where("id", id)
-      .then(details => {
-        console.log(details);
-        res.render("postdetails", { details: details[0] });
+    const post = await knex("posts").where("id", id);
+    const allAdvices = await knex("advices").where("post_id", id);
+
+    Promise.all([post, allAdvices])
+      .then(results => {
+        res.render("postdetails", {
+          details: results[0][0],
+          advices: results[1]
+        });
       })
       .catch(err => console.log("opppspsspsps", err));
+
+    // knex("posts")
+    //   .select()
+    //   .where("id", id)
+    //   .then(details => {
+    //     console.log(details);
+    //     res.render("postdetails", { details: details[0] });
+    //   })
+    //   .catch(err => console.log("opppspsspsps", err));
   } else {
     res.status(500);
     res.render("error", {
@@ -197,7 +209,8 @@ app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
 app.post("/comment", authHelpers.loginRequired, (req, res) => {
   const data = {
     content: req.body.content,
-    user_id: req.user.id
+    user_id: req.user.id,
+    post_id: parseInt(req.body.postId)
   };
   knex
     .insert(data)
