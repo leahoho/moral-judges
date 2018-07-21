@@ -3,10 +3,10 @@ var app = express();
 
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
-// const passport = require('passport');
 const passport = require("./auth/local");
 const hb = require("express-handlebars");
 const fileUpload = require("express-fileupload");
+var bodyParser = require("body-parser");
 
 const knex = require("knex")({
   client: "postgresql",
@@ -17,12 +17,19 @@ const knex = require("knex")({
   }
 });
 
+//import auth function
 const authHelpers = require("./auth/_helpers");
 
+//beginning of backend
+
+//set static files
 app.use(express.static(__dirname + "/public"));
 app.use("/images", express.static(__dirname + "/public"));
-var bodyParser = require("body-parser");
+
+//middleware
 app.use(fileUpload());
+
+//configure auth settings
 app.use(
   session({
     secret: "moral_secret!@#$",
@@ -30,15 +37,16 @@ app.use(
     saveUninitialized: true
   })
 );
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(flash());
+
 app.engine("handlebars", hb({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//beginning of routes
 app.get("/", (req, res) => {
   res.render("login");
 });
@@ -50,21 +58,6 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register");
 });
-
-// app.post('/register', (req, res) => {
-//   console.log(req.body);
-//   knex
-//     .insert({
-//       username: req.body.username,
-//       password: req.body.password,
-//       email: req.body.email,
-//     })
-//     .into('users')
-//     .then(() => {
-//       res.redirect('/posts'); //form is redirect as a get request
-//     })
-//     .catch(err => console.log('opppspsspsps', err));
-// });
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -105,15 +98,12 @@ function handleResponse(res, code, statusMsg) {
   res.status(code).json({ status: statusMsg });
 }
 
-// app.get('/logout', (req, res) => {
-//   res.render('login');
-// });
-
 app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
   req.logout();
   handleResponse(res, 200, "success");
 });
 
+// update post
 app.get("/posts", authHelpers.loginRequired, (req, res) => {
   // console.log('req user: ', req.user);
   knex("posts")
@@ -145,6 +135,7 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
   //     .catch(err => console.log(err));
 });
 
+//update post detial
 app.get("/posts/:id", (req, res) => {
   const id = req.params.id;
   if (typeof id != "undefined") {
@@ -191,30 +182,48 @@ app.get("/badass", authHelpers.loginRequired, (req, res) => {
   res.render("badasscreate");
 });
 
-app.get("/victim", (req, res) => {
+app.get("/victim", authHelpers.loginRequired, (req, res) => {
   res.render("victimcreate");
 });
 
-app.get("/mypostlist", (req, res) => {
+app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
   knex("posts")
-    .select()
+    .where("user_id", req.user.id)
     .then(posts => {
       res.render("mypostlist", { posts: posts });
     });
 });
 
-app.get("/myadvice", (req, res) => {
-  res.render("myadvice");
-});
-
-app.get("/myfavourite", (req, res) => {
-  knex("posts")
-    .select()
-    .then(posts => {
-      res.render("myfavourite", { posts: posts });
+app.post("/comment", authHelpers.loginRequired, (req, res) => {
+  const data = {
+    content: req.body.content,
+    user_id: req.user.id
+  };
+  knex
+    .insert(data)
+    .into("advices")
+    .then(() => {
+      res.redirect("/posts/" + req.body.postId);
+    })
+    .catch(err => {
+      console.log("insert advice error: ", err);
+      res.redirect("/posts/" + req.body.postId);
     });
 });
 
+app.get("/myadvice", authHelpers.loginRequired, (req, res) => {
+  res.render("myadvice");
+});
+
+// app.get("/myfavourite", (req, res) => {
+//   knex("posts")
+//     .select()
+//     .then(posts => {
+//       res.render("myfavourite", { posts: posts });
+//     });
+// });
+
+//upload & post function
 app.post("/upload", (req, res) => {
   if (!req.files) return res.status(400).send("No files were uploaded.");
 
@@ -223,18 +232,13 @@ app.post("/upload", (req, res) => {
   inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
     if (err) return res.status(500).send(err);
 
-    // console.log('upload req user: ', req.user);
-
     const data = {
       title: req.body.title,
       content: req.body.content,
       image_path: filePath,
-      user_id: req.user.id
-      // datetime: Date.now(),
+      user_id: req.user.id,
+      victim: req.body.victim || false
     };
-
-    // console.log("data: ", data);
-    //write path to database
 
     knex
       .insert(data)
@@ -248,21 +252,5 @@ app.post("/upload", (req, res) => {
       });
   });
 });
-
-// app.post('/posts', (req, res) => {
-//   console.log(req.body);
-//   knex
-//     .insert({
-//       title: req.body.title,
-//       image_path: req.body.image,
-//       victim: req.body.trueorfalse,
-//       content: req.body.content,
-//     })
-//     .into('posts')
-//     .then(() => {
-//       res.redirect('/posts');
-//     })
-//     .catch(err => console.log('opppspsspsps', err));
-// });
 
 app.listen(3000);

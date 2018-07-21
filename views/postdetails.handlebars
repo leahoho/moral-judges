@@ -4,17 +4,32 @@
     </div>
 
     <div class="jumbotron">
-        {{#if details.victim}}<p>匿名被害者(victim)</p>{{else}}<p>匿名犯匪者(criminal)</p>{{/if}}
-        <div><p>Created at: {{ details.created_at }}</p></div>
-        <div><p>標題: {{ details.title }}</p></div>
-        {{#if details.image_path}}<img src="{{ details.image_path }}" class="img-thumbnail">{{else}}~~~~~~~~~~~~~~~~~~~~無圖（無真相，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
-        <div><p>內容: {{ details.content }}</p></div>
-        <div><p>[no.of support]</p></div>
-        <div><p>[no. of dissupport]</p></div>
-        <div><p>[no. of advice]</p></div>
+        {{#if details.victim}}
+        <p>匿名被害者(victim)</p>{{else}}
+        <p>匿名犯匪者(criminal)</p>{{/if}}
+        <div>
+            <p>Created at: {{ details.created_at }}</p>
+        </div>
+        <div>
+            <p>標題: {{ details.title }}</p>
+        </div>
+        {{#if details.image_path}}
+        <img src="http://localhost:3000/{{ details.image_path }}" class="img-thumbnail">{{else}}~~~~~~~~~~~~~~~~~~~~無圖（無真相，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
+        <div>
+            <p>內容: {{ details.content }}</p>
+        </div>
+        <div>
+            <p>[no.of support]</p>
+        </div>
+        <div>
+            <p>[no. of dissupport]</p>
+        </div>
+        <div>
+            <p>[no. of advice]</p>
+        </div>
         <input type="submit" class="btn btn-primary btn-block" value="Support" style="background-color:green"></input>
         <input type="submit" class="btn btn-primary btn-block" value="Dis-support" style="background-color:red"></input>
-    
+
     </div>
 
     <div class="jumbotron">
@@ -24,21 +39,28 @@
 
     <div class="jumbotron">
         <h3>Give an advice 發表有建設性的建議：</h3>
-        {{!-- <div style="width:30%; margin:0 auto;"> --}}
-        <div>
-        <form action="/posts" method="POST">
-            <div class="form-group"><textarea class="form-control" type="text" name="advicecontent" placeholder="Advice here..."></textarea></div>
-            <input type="submit" class="btn btn-primary btn-block"></input>
-        </form>
+        {{!--
+        <div style="width:30%; margin:0 auto;"> --}}
+            <div>
+                <form action="/comment" method="POST">
+                    <div class="form-group">
+                        <textarea class="form-control" type="text" name="content" placeholder="Advice here..."></textarea>
+                        <input hidden name="postId" value="{{details.id}}" />
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-block"></input>
+                </form>
+            </div>
         </div>
-    </div>
 
 
-{{!-- <div>{{#each details}}
-  <p>{{@key}}:{{this}}</p>
-{{/each}} --}}
+        {{!--
+        <div>{{#each details}}
+            <p>{{@key}}:{{this}}</p>
+            {{/each}} --}}
 
 
-    <button ><a class="btn btn-primary btn-large" href="/posts">Go back</a></button>
+            <button>
+                <a class="btn btn-primary btn-large" href="/posts">Go back</a>
+            </button>
 
-</div>
+        </div>
