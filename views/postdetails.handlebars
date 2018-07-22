@@ -11,24 +11,30 @@
             <p>Created at: {{ details.created_at }}</p>
         </div>
         <div>
-            <p>標題: {{ details.title }}</p>
+            <p id="content">標題: {{ details.title }}</p>
         </div>
         {{#if details.image_path}}
-        <img src="http://localhost:3000/{{ details.image_path }}" class="img-thumbnail">{{else}}~~~~~~~~~~~~~~~~~~~~無圖（無真相，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
+        <img src="http://localhost:3000/{{ details.image_path }}"
+        {{!-- {{#if details.image_path includes("https")}}
+        "http://localhost:3000/"{{ details.image_path }}
+        {{else}}
+        {{ details.image_path }}
+        {{/if}} --}}
+         class="img-thumbnail">{{else}}~~~~~~~~~~~~~~~~~~~~無圖（無真相，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
         <div>
-            <p>內容: {{ details.content }}</p>
+            <p id="content">內容: {{ details.content }}</p>
         </div>
-        <div>
+        {{!-- <div>
             <p>[no.of support]</p>
         </div>
         <div>
             <p>[no. of dissupport]</p>
-        </div>
+        </div> --}}
         <div>
             <p>[no. of advice]</p>
         </div>
-        <input type="submit" class="btn btn-primary btn-block" value="Support" style="background-color:green"></input>
-        <input type="submit" class="btn btn-primary btn-block" value="Dis-support" style="background-color:red"></input>
+        {{!-- <input type="submit" class="btn btn-primary btn-block" value="Support" style="background-color:green"></input>
+        <input type="submit" class="btn btn-primary btn-block" value="Dis-support" style="background-color:red"></input> --}}
 
     </div>
 
@@ -63,14 +69,12 @@
                         <textarea class="form-control" type="text" name="content" placeholder="Advice here..."></textarea>
                         <input hidden name="postId" value="{{details.id}}" />
                     </div>
-                    <input type="submit" class="btn btn-primary btn-block"></input>
+                    <input type="submit" class="btn btn-primary btn-lg btn-block"></input>
                 </form>
             </div>
         </div>
 
 
-        <button>
-            <a class="btn btn-primary btn-large" href="/posts">Go back</a>
-        </button>
+        <a class="btn btn-secondary btn-md" href="/posts">Go back</a>
 
     </div>

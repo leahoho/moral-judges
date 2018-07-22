@@ -48,29 +48,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //beginning of routes
 app.get("/", (req, res) => {
-  res.render("login");
+  res.render("login", {layout:"mainmeilogin.handlebars"});
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login", {layout:"mainmeilogin.handlebars"});
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  res.render("register", {layout:"mainmeilogin.handlebars"});
 });
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       handleResponse(res, 500, "error");
+      // res.render("/loginfail");
     }
     if (!user) {
-      handleResponse(res, 404, "User not found");
+      // handleResponse(res, 404, "User not found");
+      res.render("loginfail");
     }
     if (user) {
       req.logIn(user, function(err) {
         if (err) {
           handleResponse(res, 500, "error");
+          // res.render("/loginfail");
         }
         // handleResponse(res, 200, 'success');
         res.redirect("/posts");
@@ -100,7 +103,8 @@ function handleResponse(res, code, statusMsg) {
 
 app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
   req.logout();
-  handleResponse(res, 200, "success");
+  // handleResponse(res, 200, "success");
+  res.render("login", {layout:"mainmeilogin.handlebars"});
 });
 
 // update post
@@ -208,7 +212,7 @@ app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
 
 app.post("/comment", authHelpers.loginRequired, (req, res) => {
   const data = {
-    content: req.body.content,
+    content: req.body.content, 
     user_id: req.user.id,
     post_id: parseInt(req.body.postId)
   };
@@ -226,6 +230,14 @@ app.post("/comment", authHelpers.loginRequired, (req, res) => {
 
 app.get("/myadvice", authHelpers.loginRequired, (req, res) => {
   res.render("myadvice");
+});
+
+app.get("/infoxxx", (req, res) => {
+  res.render("info", {layout:"infomeilogin.handlebars"});
+});
+
+app.get("/info", (req, res) => {
+  res.render("info");
 });
 
 // app.get("/myfavourite", (req, res) => {
@@ -266,4 +278,45 @@ app.post("/upload", (req, res) => {
   });
 });
 
+
 app.listen(3000);
+
+
+
+
+
+// app.post("/upload", (req, res) => {
+//   if (!req.files) return res.status(400).send("No files were uploaded.");
+
+// let inputFile = req.files.inputFile;
+//   const filePath = "images/" + inputFile.name;
+//   if(inputFile!==null){
+//     inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
+//       if (err) return res.status(500).send(err);
+//     })} else {
+//     console.log("must add image");
+//   };
+
+//     const data = {
+//       title: req.body.title,
+//       content: req.body.content,
+//       image_path: filePath,
+//       user_id: req.user.id,
+//       victim: req.body.victim || false
+//     };
+
+//     knex
+//       .insert(data)
+//       .into("posts")
+//       .then(() => {
+//         res.redirect("/posts");
+//       })
+//       .catch(err => {
+//         console.log("insert post error: ", err);
+//         res.redirect("/posts");
+//       });
+//   });
+
+// app.get("*",(req, res) => {
+//     res.render("404");
+// });

@@ -1,27 +1,33 @@
 <div class="container">
-    <h1 style="text-align: center">Hi badass, confess here!</h1>
+
+    <div class="jumbotron">
+        <h1 style="text-align: center">咦,你做錯左d咩事呀？</h1>
+    </div>
+
     <div style="width:30%; margin:0 auto;">
 
         <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/upload' method='post' encType="multipart/form-data">
             <div class="form-group">
-                <input class="form-control" type="text" name="title" placeholder="Title">
+                <input class="form-control" type="text" name="title" placeholder="標題：關於咩事架？">
             </div>
             <label> Choose file or image url:</label>
-
+            <label>有圖有真相喎～不妨埋upload埋個真相上尼？</label>
             <div class="form-group">
                 <input class="form-control" type="file" name="inputFile" />
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="content" placeholder="Content">
+                <textarea class="form-control" type="text" name="content" placeholder="內容：話個詳細內容比我地聽下？"></textarea>
             </div>
+            {{!--
             <div class="form-group">
                 <input type="hidden" id="badass" name="badass" value="badass">
-            </div>
+            </div> --}}
             <div class="form-group">
-                <input class="btn btn-primary btn-block" type='submit' value='Submit' />
+                <input class="btn btn-primary btn-block" type='submit' value='確定' />
             </div>
             <input type="hidden" name="victim" value=false />
         </form>
-        <a href="/role">Go back</a>
+        <a class="btn btn-secondary btn-sm" href="/role">返回上一頁</a>
+        <div id="minheightaddposts"></div>
     </div>
 </div>

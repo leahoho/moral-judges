@@ -14,13 +14,18 @@ MJ
 (2 image upload)
 * 3 list out advices(geh hai comments) in the [post/:id]route (or other routes or methods)
 4 add advices(geh hai comments)(form data) to [advices]database
-3 sorting x 6
 5 mypostlist (list out posts that a user created)
 6 mycommentlist (list out advcies that a user made)
 
 (7 CSS beautify)
 
-8 Deploy (first deploy trial latest on Monday)
+(8 sorting x 6)
+
+9 Deploy (first deploy trial latest on Monday)
 
 -readme
 -ppt
+
+sort
+advice display
+wordings

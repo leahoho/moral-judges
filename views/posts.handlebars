@@ -15,10 +15,10 @@
     <button class="btn btn-primary btn-large">冷門先（用advice的數量恆量)</button>
 
     <div class='jumbotron'>
-        <h1>Post home page (List of posts)</h1>
-        <p>See the posts !!</p>
+        <h1>匿名樹lung 主頁</h1>
+        <h6>睇下大家呢排生活發生咩事，有咩煩惱/分享，可以幫手諗下點樣解決</h6>
         <p>
-            <a class="btn btn-primary btn-large" href="/role">Add new Posts</a>
+            <a class="btn btn-primary btn-lg btn-block" href="/role">我要post野!</a>
         </p>
     </div>
 
@@ -41,12 +41,10 @@
                 <div class="caption">
                     <p>{{ content }}</p>
                 </div>
-                <p>[no.of support]</p>
-                <p>[no. of disupport]</p>
+                {{!-- <p>[no.of support]</p>
+                <p>[no. of disupport]</p> --}}
                 <p>[no. of advices]</p>
-                <button>
-                    <a href="/posts/{{id}}">Details</a>
-                </button>
+                <a class="btn btn-secondary btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>
             </div>
         </div>
         {{/each}}

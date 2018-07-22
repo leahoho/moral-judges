@@ -23,3 +23,27 @@ body {
   top: 0;
   width: 100%;
 }
+
+#minheight{
+  min-height: 560px;
+}
+
+#minheightaddposts{
+  min-height: 250px;
+}
+
+#content{
+  font-size:28px;
+}
+
+/* #bgpic{
+  background: url("https://blessedsacramenthollywood.org/wp-content/uploads/2017/07/ConfessionJesus.jpg");
+  background-size: cover;
+  background-blend-mode: overlay;
+  background-color:#444444;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+} */

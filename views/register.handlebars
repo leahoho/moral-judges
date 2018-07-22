@@ -1,15 +1,17 @@
 <div class="container">
+    
     <h1 style="text-align: center">Register</h1>
     <div style="width:30%; margin:0 auto;">
         <form action="/register" method="POST">
              <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Username"></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email (for login usage only)"></div>
+            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
             {{!-- <div class="form-group" ><button class="btn btn-primary btn-block">Register</button></div> --}}
             <div class="form-group" ><input type="submit" class="btn btn-primary btn-block"></input></div>
         </form>
-        <p>Have and account?
+        <h6>Have and account?
             <a href="/">Login</a>
-        </p>
+        </h6>
     </div>
+    <div id="minheight"></div>
 </div>
