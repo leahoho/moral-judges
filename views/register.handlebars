@@ -1,17 +1,35 @@
-<div class="container">
-    
-    <h1 style="text-align: center">Register</h1>
-    <div style="width:30%; margin:0 auto;">
-        <form action="/register" method="POST">
-             <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Username"></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-            {{!-- <div class="form-group" ><button class="btn btn-primary btn-block">Register</button></div> --}}
-            <div class="form-group" ><input type="submit" class="btn btn-primary btn-block"></input></div>
-        </form>
-        <h6>Have and account?
-            <a href="/">Login</a>
-        </h6>
+<div class="bgpic">
+    <div class="container">
+
+        <div class='jumbotron'>
+            <h1 style="text-align: center">Register 註冊帳號</h1>
+        </div>
+        <div style="width:50%; margin:0 auto;">
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="用戶名稱 Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="電郵地址 Email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="密碼 Password">
+                </div>
+                {{!--
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">Register</button>
+                </div> --}}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary btn-block" value="確定"></input>
+                </div>
+            </form>
+            <h6 style="color:white">
+                <strong>已經擁有帳號？</strong>
+                <a href="/">
+                    <strong>登入</strong>
+                </a>
+            </h6>
+        </div>
+        <div class="minheightregister"></div>
     </div>
-    <div id="minheight"></div>
 </div>

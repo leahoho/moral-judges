@@ -1,22 +1,27 @@
-<div class="container">
+<div class="bgpic">
+    <div class="container">
 
-    <h1 style="text-align: center">Login</h1>
-    <div style="width:30%; margin:0 auto;">
-        <form action="/login" method="POST">
-            <div class="form-group">
-                <input class="form-control" type="text" name="username" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-block">Login</button>
-            </div>
-        </form>
-        <h6>Do not have and account?
-            <a href="/register">Register</a>
-        </h6>
-        <div id="minheight"></div>
+        <div class='jumbotron'>
+            <h1 style="text-align: center">Login 登入</h1>
+        </div>
+        <div style="width:50%; margin:0 auto;">
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="用戶名稱 Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="密碼 Password">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">登入</button>
+                </div>
+            </form>
+            <h6 style="color:white">
+                <strong>還未有帳號？</strong>
+                <a href="/register">註冊帳號</a>
+            </h6>
+            <div class="minheightlogin"></div>
 
+        </div>
     </div>
 </div>

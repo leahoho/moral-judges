@@ -2,7 +2,7 @@
 
     <div class='jumbotron'>
         <h1>我的帖子</h1>
-        <h5>睇返自己建立過咩post</h5>
+        <h5>睇返自己建立過既post</h5>
     </div>
 
     <div id="minheight">
@@ -26,7 +26,10 @@
                         <p>{{ content }}</p>
                     </div>
                     <p>[no. of advices]</p>
-                     <a class="btn btn-secondary btn-large btn-block" href="/posts/{{id}}">詳細內容</a>
+
+                    {{#if victim}}
+                    <a class="btn btn-secondary btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>{{else}}
+                    <a class="btn btn-danger btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>{{/if}}
                 </div>
             </div>
             {{/each}}

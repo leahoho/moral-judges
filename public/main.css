@@ -25,17 +25,54 @@ body {
 }
 
 #minheight{
-  min-height: 560px;
+  min-height: 525px;
 }
 
 #minheightaddposts{
   min-height: 250px;
 }
 
+.minheightlogin{
+  /* min-height: 295px; */
+  min-height: 430px;
+}
+
+.minheightregister{
+  /* min-height: 230px; */
+  min-height: 350px;
+}
+
+
 #content{
   font-size:28px;
 }
 
+.textcenter{
+  text-align: center;
+}
+
+.jumbotron{
+  /* margin-top:5px; */
+  margin-bottom:30px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.card{
+  margin-top:1px;
+  margin-bottom:1px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.card-body{
+  padding-top: 4px;
+  padding-bottom: 1px;
+}
+
+.img-thumbnail{
+  margin-bottom:8px;
+}
 /* #bgpic{
   background: url("https://blessedsacramenthollywood.org/wp-content/uploads/2017/07/ConfessionJesus.jpg");
   background-size: cover;
@@ -47,3 +84,11 @@ body {
   align-items: center;
   margin-bottom: 0px;
 } */
+
+.bgpic{
+  background: url("http://media.freebibleimages.org/stories/FB_GNPI_079_Temple_Cleansing/overview_images/001-gnpi-079-temple-cleansing.jpg?1490886104") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}

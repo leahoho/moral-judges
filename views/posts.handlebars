@@ -1,21 +1,21 @@
 <div class="container">
 
 
-    <div class="input-group mb-3">
+    {{!-- <div class="input-group mb-3">
         <div class="input-group-prepend">
             <button class="btn btn-outline-secondary" type="button">Search</button>
         </div>
         <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
-    </div>
-    <button class="btn btn-primary btn-large">由新到舊</button>
+    </div> --}}
+    {{!-- <button class="btn btn-primary btn-large">由新到舊</button>
     <button class="btn btn-primary btn-large">由舊到新</button>
     <button class="btn btn-primary btn-large">被害者先</button>
     <button class="btn btn-primary btn-large">受害者先</button>
     <button class="btn btn-primary btn-large">熱門先（用advice的數量恆量)</button>
-    <button class="btn btn-primary btn-large">冷門先（用advice的數量恆量)</button>
+    <button class="btn btn-primary btn-large">冷門先（用advice的數量恆量)</button> --}}
 
     <div class='jumbotron'>
-        <h1>匿名樹lung 主頁</h1>
+        <h1>匿名樹洞 主頁</h1>
         <h6>睇下大家呢排生活發生咩事，有咩煩惱/分享，可以幫手諗下點樣解決</h6>
         <p>
             <a class="btn btn-primary btn-lg btn-block" href="/role">我要post野!</a>
@@ -34,17 +34,20 @@
                     <p style="font-size:10px">{{ created_at }}</p>
                 </div>
                 <div class="caption">
-                    <h4>{{ title }}</h4>
+                    <h5>{{ title }}</h5>
                 </div>
                 {{#if image_path}}
                 <img src="{{ image_path }}" class="img-thumbnail"> {{/if}}
                 <div class="caption">
                     <p>{{ content }}</p>
                 </div>
-                {{!-- <p>[no.of support]</p>
+                {{!--
+                <p>[no.of support]</p>
                 <p>[no. of disupport]</p> --}}
                 <p>[no. of advices]</p>
-                <a class="btn btn-secondary btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>
+                {{#if victim}}
+                <a class="btn btn-secondary btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>{{else}}
+                <a class="btn btn-danger btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>{{/if}}
             </div>
         </div>
         {{/each}}

@@ -4,19 +4,20 @@
         <h1 style="text-align: center">咦,你做錯左d咩事呀？</h1>
     </div>
 
-    <div style="width:30%; margin:0 auto;">
+    <div style="width:70%; margin:0 auto;">
+        
 
         <form ref='uploadForm' id='uploadForm' action='http://localhost:3000/upload' method='post' encType="multipart/form-data">
             <div class="form-group">
                 <input class="form-control" type="text" name="title" placeholder="標題：關於咩事架？">
             </div>
-            <label> Choose file or image url:</label>
-            <label>有圖有真相喎～不妨埋upload埋個真相上尼？</label>
+            {{!-- <label> Choose file or image url:</label> --}}
+            <h6>有圖有真相喎～不妨upload埋個真「相」上尼？</h6>
             <div class="form-group">
                 <input class="form-control" type="file" name="inputFile" />
             </div>
             <div class="form-group">
-                <textarea class="form-control" type="text" name="content" placeholder="內容：話個詳細內容比我地聽下？"></textarea>
+                <textarea class="form-control" rows="9" type="text" name="content" placeholder="內容：話個詳細內容比我地聽下？愈詳細大家愈幫到你喎:O"></textarea>
             </div>
             {{!--
             <div class="form-group">

@@ -113,7 +113,6 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
   knex("posts")
     .select()
     .then(posts => {
-      // console.log(posts[0]);
       res.render("posts", { posts: posts });
     });
   /////```````inner join / groupby
@@ -171,24 +170,6 @@ app.get("/posts/:id", async (req, res) => {
   }
 });
 
-//// POST route of adding advice(comments)
-////?? why cant get advice content in postdetails.handlebars???(console.log show "undefined", may be coz no data(eg userid) in db, may needa wait til authen gor bin gao dim)
-// app.post("/posts/:id", (req, res) => {
-//     console.log(req.body);
-//     knex.insert({ content: req.body.advicecontent }).into("advices")
-//         .then(() => {
-//             res.redirect("/mypostlist");
-//         }).catch(err => console.log("opppspsspsps", err))
-// });
-
-//// POST route of storing the support or not value
-// app.post("/posts/:id/supportornot", (req, res) => {
-//     const id = req.params.id;
-//     knex.insert({ victim: "false", content: "content" }).into("votes")
-//         .then(() => {
-//             res.redirect("/posts"); //form is redirect as a get request
-//         }).catch(err => console.log("opppspsspsps", err))
-// });
 
 app.get("/role", (req, res) => {
   res.render("role");
@@ -210,6 +191,14 @@ app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
     });
 });
 
+app.get("/myadvice", authHelpers.loginRequired, (req, res) => {
+  knex("advices")
+  .where("user_id", req.user.id)
+  .then(advices => {
+    res.render("myadvice", { advices: advices });
+  });
+});
+
 app.post("/comment", authHelpers.loginRequired, (req, res) => {
   const data = {
     content: req.body.content, 
@@ -228,9 +217,6 @@ app.post("/comment", authHelpers.loginRequired, (req, res) => {
     });
 });
 
-app.get("/myadvice", authHelpers.loginRequired, (req, res) => {
-  res.render("myadvice");
-});
 
 app.get("/infoxxx", (req, res) => {
   res.render("info", {layout:"infomeilogin.handlebars"});
@@ -319,4 +305,26 @@ app.listen(3000);
 
 // app.get("*",(req, res) => {
 //     res.render("404");
+// });
+
+
+
+
+//// POST route of adding advice(comments)
+////?? why cant get advice content in postdetails.handlebars???(console.log show "undefined", may be coz no data(eg userid) in db, may needa wait til authen gor bin gao dim)
+// app.post("/posts/:id", (req, res) => {
+//     console.log(req.body);
+//     knex.insert({ content: req.body.advicecontent }).into("advices")
+//         .then(() => {
+//             res.redirect("/mypostlist");
+//         }).catch(err => console.log("opppspsspsps", err))
+// });
+
+//// POST route of storing the support or not value
+// app.post("/posts/:id/supportornot", (req, res) => {
+//     const id = req.params.id;
+//     knex.insert({ victim: "false", content: "content" }).into("votes")
+//         .then(() => {
+//             res.redirect("/posts"); //form is redirect as a get request
+//         }).catch(err => console.log("opppspsspsps", err))
 // });
