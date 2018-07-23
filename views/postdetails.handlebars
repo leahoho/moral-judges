@@ -15,8 +15,8 @@
             <p id="content">標題: {{ details.title }}</p>
         </div>
         {{#if details.image_path}}
-        <img src="http://localhost:3000/{{ details.image_path }}" class="img-thumbnail"> 
-        {{else}}~~~~~~~~~~~~~~~~~~~~此post無圖（無真「相」，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
+        <img src="/{{ details.image_path }}" {{!-- {{#if details.image_path includes( "https")}}
+            "/"{{ details.image_path }} {{else}} {{ details.image_path }} {{/if}} --}} class="img-thumbnail">{{else}}~~~~~~~~~~~~~~~~~~~~此post無圖（無真「相」，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
         <div>
             <p id="content">內容: {{ details.content }}</p>
         </div>
