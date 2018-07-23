@@ -60,8 +60,9 @@
             {{#each advices}}
             <div class="card">
                 <div class="card-body">
-                    <p style="font-size:10px">{{ created_at }}</p>
+                    <p style="font-size:10px">建立於:{{ created_at }} 由 UserID : {{user_id}} </p>
                     <p style="font-size:18px">{{ content }}</p>
+                   
                 </div>
             </div>
             {{/each}}

@@ -138,10 +138,9 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
   //     .catch(err => console.log(err));
 });
 
-//update post detial
+//update post details
 app.get("/posts/:id", async (req, res) => {
   const id = req.params.id;
-  if (typeof id != "undefined") {
     const post = await knex("posts").where("id", id);
     const allAdvices = await knex("advices").where("post_id", id);
 
@@ -153,7 +152,7 @@ app.get("/posts/:id", async (req, res) => {
         });
       })
       .catch(err => console.log("opppspsspsps", err));
-
+    });
     // knex("posts")
     //   .select()
     //   .where("id", id)
@@ -162,14 +161,40 @@ app.get("/posts/:id", async (req, res) => {
     //     res.render("postdetails", { details: details[0] });
     //   })
     //   .catch(err => console.log("opppspsspsps", err));
-  } else {
-    res.status(500);
-    res.render("error", {
-      message: "Invalid id, no this users"
-    });
-  }
-});
 
+
+
+// //update post detial
+// app.get("/posts/:id", async (req, res) => {
+//   const id = req.params.id;
+//   if (typeof id != "undefined") {
+//     const post = await knex("posts").where("id", id);
+//     const allAdvices = await knex("advices").where("post_id", id);
+
+//     Promise.all([post, allAdvices])
+//       .then(results => {
+//         res.render("postdetails", {
+//           details: results[0][0],
+//           advices: results[1]
+//         });
+//       })
+//       .catch(err => console.log("opppspsspsps", err));
+
+//     // knex("posts")
+//     //   .select()
+//     //   .where("id", id)
+//     //   .then(details => {
+//     //     console.log(details);
+//     //     res.render("postdetails", { details: details[0] });
+//     //   })
+//     //   .catch(err => console.log("opppspsspsps", err));
+//   } else {
+//     res.status(500);
+//     res.render("error", {
+//       message: "Invalid id, no this users"
+//     });
+//   }
+// });
 
 app.get("/role", (req, res) => {
   res.render("role");
@@ -234,6 +259,8 @@ app.get("/info", (req, res) => {
 //     });
 // });
 
+
+
 //upload & post function
 app.post("/upload", (req, res) => {
   if (!req.files) return res.status(400).send("No files were uploaded.");
@@ -264,11 +291,59 @@ app.post("/upload", (req, res) => {
   });
 });
 
-
 app.listen(3000);
 
 
+// //upload & post function
+// app.post("/upload", (req, res) => {
+//   if (!req.files) return res.status(400).send("No files were uploaded.");
 
+//   let inputFile = req.files.inputFile;
+//   let filePath = "images/" + inputFile.name;
+
+// if(inputFile.name!==null){
+//   inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
+//     if (err) return res.status(500).send(err);
+
+//     const data = {
+//       title: req.body.title,
+//       content: req.body.content,
+//       image_path: filePath,
+//       user_id: req.user.id,
+//       victim: req.body.victim || false
+//     };
+
+//     knex
+//       .insert(data)
+//       .into("posts")
+//       .then(() => {
+//         res.redirect("/posts");
+//       })
+//       .catch(err => {
+//         console.log("insert post error: ", err);
+//         res.redirect("/posts");
+//       });
+//   });
+// }else{
+//     const data = {
+//       title: req.body.title,
+//       content: req.body.content,
+//       user_id: req.user.id,
+//       victim: req.body.victim || false
+//     };
+
+//     knex
+//       .insert(data)
+//       .into("posts")
+//       .then(() => {
+//         res.redirect("/posts");
+//       })
+//       .catch(err => {
+//         console.log("insert post error: ", err);
+//         res.redirect("/posts");
+//       });
+//   };
+// });
 
 
 // app.post("/upload", (req, res) => {
