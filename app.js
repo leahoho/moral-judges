@@ -70,7 +70,7 @@ app.post("/login", (req, res, next) => {
       res.render("loginfail");
     }
     if (user) {
-      req.logIn(user, function (err) {
+      req.logIn(user, function(err) {
         if (err) {
           handleResponse(res, 500, "error");
           // res.render("/loginfail");
@@ -88,7 +88,14 @@ app.post("/register", (req, res, next) => {
     .then(response => {
       passport.authenticate("local", (err, user, info) => {
         if (user) {
-          handleResponse(res, 200, "success");
+          req.logIn(user, function(err) {
+            if (err) {
+              handleResponse(res, 500, "error");
+              // res.render("/loginfail");
+            }
+            // handleResponse(res, 200, "success");
+            res.redirect("/posts");
+          });
         }
       })(req, res, next);
     })
@@ -112,7 +119,15 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
   // console.log('req user: ', req.user);
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
@@ -123,50 +138,82 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
 });
 //s
 app.get("/postssortnewold", authHelpers.loginRequired, (req, res) => {
-    knex
+  knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
-    .orderBy('posts.created_at', 'desc')
+    .orderBy("posts.created_at", "desc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
 });
 //s
 app.get("/postssortvic", authHelpers.loginRequired, (req, res) => {
-    knex
+  knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     // .orderBy("posts.created_at", "desc")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
-    .orderBy("victim", 'desc')
+    .orderBy("victim", "desc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
 });
 //s
 app.get("/postssortcri", authHelpers.loginRequired, (req, res) => {
-    knex
+  knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     // .orderBy("posts.created_at", "desc")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
-    .orderBy("victim", 'aesc')
+    .orderBy("victim", "aesc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
 });
 //s
 app.get("/postssortdoradv", authHelpers.loginRequired, (req, res) => {
-    knex
+  knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
@@ -178,15 +225,23 @@ app.get("/postssortdoradv", authHelpers.loginRequired, (req, res) => {
 
 app.get("/postssortsiuadv", authHelpers.loginRequired, (req, res) => {
   knex
-  .count("advices.post_id")
-  .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
-  .from("posts")
-  .leftJoin("advices", "advices.post_id", "posts.id")
-  .groupBy("posts.id")
-  .orderByRaw("count(advices.post_id)")
-  .then(posts => {
-    res.render("posts", { posts: posts });
-  });
+    .count("advices.post_id")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
+    .from("posts")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderByRaw("count(advices.post_id)")
+    .then(posts => {
+      res.render("posts", { posts: posts });
+    });
 });
 
 //update post details
@@ -212,8 +267,6 @@ app.get("/posts/:id", async (req, res) => {
 //     res.render("postdetails", { details: details[0] });
 //   })
 //   .catch(err => console.log("opppspsspsps", err));
-
-
 
 // //update post detial
 // app.get("/posts/:id", async (req, res) => {
@@ -293,7 +346,6 @@ app.post("/comment", authHelpers.loginRequired, (req, res) => {
     });
 });
 
-
 app.get("/infoxxx", (req, res) => {
   res.render("info", { layout: "infomeilogin.handlebars" });
 });
@@ -310,8 +362,6 @@ app.get("/info", (req, res) => {
 //     });
 // });
 
-
-
 //upload & post function
 app.post("/upload", (req, res) => {
   if (!req.files) return res.status(400).send("No files were uploaded.");
@@ -319,7 +369,7 @@ app.post("/upload", (req, res) => {
   let inputFile = req.files.inputFile;
   if (inputFile != null) {
     const filePath = "images/" + inputFile.name;
-    inputFile.mv(`${__dirname}/public/${filePath}`, function (err) {
+    inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
       if (err) return res.status(500).send(err);
 
       const data = {
@@ -364,9 +414,6 @@ app.post("/upload", (req, res) => {
 });
 
 app.listen(3000);
-
-
-
 
 //// POST route of adding advice(comments)
 ////?? why cant get advice content in postdetails.handlebars???(console.log show "undefined", may be coz no data(eg userid) in db, may needa wait til authen gor bin gao dim)

@@ -24,71 +24,105 @@ body {
   width: 100%;
 }
 
-#minheight{
+#minheight {
   min-height: 525px;
 }
 
-#minheightaddposts{
+#minheightaddposts {
   min-height: 250px;
 }
 
-.minheightlogin{
+.minheightlogin {
   /* min-height: 295px; */
   min-height: 430px;
 }
 
-.minheightregister{
+.minheightregister {
   /* min-height: 230px; */
   min-height: 350px;
 }
 
-
-#content{
-  font-size:28px;
+#content {
+  font-size: 28px;
 }
 
-.textcenter{
+.textcenter {
   text-align: center;
 }
 
-.jumbotron{
+.jumbotron {
   /* margin-top:5px; */
-  margin-bottom:30px;
+  margin-bottom: 30px;
   padding-top: 25px;
   padding-bottom: 25px;
 }
 
-.card{
-  margin-top:1px;
-  margin-bottom:1px;
+.card {
+  margin-top: 1px;
+  margin-bottom: 1px;
   padding-top: 1px;
   padding-bottom: 1px;
 }
 
-.card-body{
+.card-body {
   padding-top: 4px;
   padding-bottom: 1px;
 }
 
-.img-thumbnail{
-  margin-bottom:8px;
+.img-thumbnail {
+  margin-bottom: 8px;
 }
-/* #bgpic{
-  background: url("https://blessedsacramenthollywood.org/wp-content/uploads/2017/07/ConfessionJesus.jpg");
-  background-size: cover;
-  background-blend-mode: overlay;
-  background-color:#444444;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0px;
-} */
 
-.bgpic{
-  background: url("http://media.freebibleimages.org/stories/FB_GNPI_079_Temple_Cleansing/overview_images/001-gnpi-079-temple-cleansing.jpg?1490886104") no-repeat center center fixed; 
+.bgpic {
+  background: url("assets/O7GZLG0.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
+  height: 600px;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+footer {
+  background: #212122;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-margin {
+  width: 1140px;
+  margin: 3px auto;
+  line-height: 70px;
+}
+
+#footer-left {
+  text-align: left;
+}
+
+.footer-margin .copyright {
+  color: white;
+  letter-spacing: 1px;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.footer-margin .social-footer {
+  color: #8d69f9;
+  letter-spacing: 1px;
+  font-size: 13px;
+  width: 100%;
+  text-align: center;
+}
+
+.footer-margin .social-footer a {
+  font-size: 15px;
+  color: white;
+  padding: 20px;
+}
+
+.footer-margin .social-footer a:hover {
+  color: #d2c4fc;
 }
