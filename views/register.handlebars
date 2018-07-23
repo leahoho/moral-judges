@@ -1,11 +1,14 @@
 <div class="bgpic">
-    <div class="container">
+    <div class="container" style="height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;">
 
-        <div class='jumbotron'>
-            <h1 style="text-align: center">Register 註冊帳號</h1>
-        </div>
-        <div style="width:50%; margin:0 auto;">
-            <form action="/register" method="POST">
+        <div style="width:50%;">
+
+            <form action="/register" method="POST" style="background: white; padding: 2em;">
+                <h2>Register 註冊帳號</h2>
+                <br/>
                 <div class="form-group">
                     <input class="form-control" type="text" name="username" placeholder="用戶名稱 Username">
                 </div>
@@ -22,13 +25,14 @@
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary btn-block" value="確定"></input>
                 </div>
+                <h6>
+                    <strong>已經擁有帳號？</strong>
+                    <a href="/">
+                        <strong>登入</strong>
+                    </a>
+                </h6>
             </form>
-            <h6 style="color:white">
-                <strong>已經擁有帳號？</strong>
-                <a href="/">
-                    <strong>登入</strong>
-                </a>
-            </h6>
+
         </div>
         <div class="minheightregister"></div>
     </div>
