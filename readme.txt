@@ -27,11 +27,3 @@ MJ
 -ppt
 
 
---------------------------
-v wordings
-v css (plus add backgroundpics)
-v advice display
-update
-delete
-sort x 6
-~show [number of advices] a post has
