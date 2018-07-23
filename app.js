@@ -63,7 +63,6 @@ app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       handleResponse(res, 500, "error");
-      // res.render("/loginfail");
     }
     if (!user) {
       // handleResponse(res, 404, "User not found");
@@ -88,19 +87,14 @@ app.post("/register", (req, res, next) => {
     .then(response => {
       passport.authenticate("local", (err, user, info) => {
         if (user) {
-          req.logIn(user, function(err) {
-            if (err) {
-              handleResponse(res, 500, "error");
-              // res.render("/loginfail");
-            }
-            // handleResponse(res, 200, "success");
-            res.redirect("/posts");
-          });
+          // handleResponse(res, 200, "success");
+          res.redirect("/posts");
         }
       })(req, res, next);
     })
     .catch(err => {
-      handleResponse(res, 500, "error");
+      // handleResponse(res, 500, "error");
+      res.redirect("/registerfail");
     });
 });
 
@@ -110,13 +104,11 @@ function handleResponse(res, code, statusMsg) {
 
 app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
   req.logout();
-  // handleResponse(res, 200, "success");
   res.render("login", { layout: "mainmeilogin.handlebars" });
 });
 
 //s
 app.get("/posts", authHelpers.loginRequired, (req, res) => {
-  // console.log('req user: ', req.user);
   knex
     .count("advices.post_id")
     .column(
@@ -171,7 +163,6 @@ app.get("/postssortvic", authHelpers.loginRequired, (req, res) => {
       "posts.created_at"
     )
     .from("posts")
-    // .orderBy("posts.created_at", "desc")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
     .orderBy("victim", "desc")
@@ -193,7 +184,6 @@ app.get("/postssortcri", authHelpers.loginRequired, (req, res) => {
       "posts.created_at"
     )
     .from("posts")
-    // .orderBy("posts.created_at", "desc")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
     .orderBy("victim", "aesc")
@@ -226,15 +216,7 @@ app.get("/postssortdoradv", authHelpers.loginRequired, (req, res) => {
 app.get("/postssortsiuadv", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column(
-      "posts.id",
-      "posts.user_id",
-      "image_path",
-      "victim",
-      "title",
-      "posts.content",
-      "posts.created_at"
-    )
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
@@ -259,46 +241,6 @@ app.get("/posts/:id", async (req, res) => {
     })
     .catch(err => console.log("opppspsspsps", err));
 });
-// knex("posts")
-//   .select()
-//   .where("id", id)
-//   .then(details => {
-//     console.log(details);
-//     res.render("postdetails", { details: details[0] });
-//   })
-//   .catch(err => console.log("opppspsspsps", err));
-
-// //update post detial
-// app.get("/posts/:id", async (req, res) => {
-//   const id = req.params.id;
-//   if (typeof id != "undefined") {
-//     const post = await knex("posts").where("id", id);
-//     const allAdvices = await knex("advices").where("post_id", id);
-
-//     Promise.all([post, allAdvices])
-//       .then(results => {
-//         res.render("postdetails", {
-//           details: results[0][0],
-//           advices: results[1]
-//         });
-//       })
-//       .catch(err => console.log("opppspsspsps", err));
-
-//     // knex("posts")
-//     //   .select()
-//     //   .where("id", id)
-//     //   .then(details => {
-//     //     console.log(details);
-//     //     res.render("postdetails", { details: details[0] });
-//     //   })
-//     //   .catch(err => console.log("opppspsspsps", err));
-//   } else {
-//     res.status(500);
-//     res.render("error", {
-//       message: "Invalid id, no this users"
-//     });
-//   }
-// });
 
 app.get("/role", (req, res) => {
   res.render("role");
@@ -313,10 +255,15 @@ app.get("/victim", authHelpers.loginRequired, (req, res) => {
 });
 
 app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
-  knex("posts")
-    .where("user_id", req.user.id)
+    knex("posts")
+    .where("posts.user_id", req.user.id)
+    .count("advices.post_id")
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderBy("posts.created_at", "aesc")
     .then(posts => {
-      res.render("mypostlist", { posts: posts });
+      res.render("posts", { posts: posts });
     });
 });
 
