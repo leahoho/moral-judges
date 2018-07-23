@@ -1,18 +1,16 @@
 <div class="container">
-
-
     {{!-- <div class="input-group mb-3">
         <div class="input-group-prepend">
             <button class="btn btn-outline-secondary" type="button">Search</button>
         </div>
         <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
     </div> --}}
-    {{!-- <button class="btn btn-primary btn-large">由新到舊</button>
-    <button class="btn btn-primary btn-large">由舊到新</button>
-    <button class="btn btn-primary btn-large">被害者先</button>
-    <button class="btn btn-primary btn-large">受害者先</button>
-    <button class="btn btn-primary btn-large">熱門先（用advice的數量恆量)</button>
-    <button class="btn btn-primary btn-large">冷門先（用advice的數量恆量)</button> --}}
+    <a class="btn btn-primary btn-large" href="/postssortnewold">由新到舊</a>
+    <a class="btn btn-primary btn-large" href="/posts">由舊到新</a>
+    <a class="btn btn-primary btn-large" href="/postssortvic">被害者先</a>
+    <a class="btn btn-primary btn-large" href="/postssortcri">受害者先</a>
+    <a class="btn btn-primary btn-large" href="/postssortdoradv">熱門先（用advice的數量恆量)</a>
+    <a class="btn btn-primary btn-large" href="/postssortsiuadv">冷門先（用advice的數量恆量)</a>
 
     <div class='jumbotron'>
         <h1>匿名樹洞 主頁</h1>
@@ -22,14 +20,11 @@
         </p>
     </div>
 
-
     <div class="row text-center">
         {{#each posts}}
         <div class="col-md-3 col-sm-6">
-            <div class="img-thumbnail">
-                
+            <div class="img-thumbnail">            
                 {{#if victim}}
-
                 <p style="font-size:14px">PostID:{{id}}  匿名被害者</p>{{else}}
                 <p style="font-size:14px">PostID:{{id}}  匿名犯匪者</p>{{/if}}
                 <div class="caption">
@@ -46,14 +41,13 @@
                 {{!--
                 <p>[no.of support]</p>
                 <p>[no. of disupport]</p> --}}
-                <p>[no. of advices]</p>
+                <p>留言：{{count}}</p>
                 {{#if victim}}
                 <a class="btn btn-secondary btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>{{else}}
                 <a class="btn btn-danger btn-sm btn-block" href="/posts/{{id}}">詳細內容</a>{{/if}}
             </div>
         </div>
         {{/each}}
-
 
     </div>
 </div>

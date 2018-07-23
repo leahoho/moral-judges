@@ -107,35 +107,86 @@ app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
   res.render("login", { layout: "mainmeilogin.handlebars" });
 });
 
-// update post
+//s
 app.get("/posts", authHelpers.loginRequired, (req, res) => {
   // console.log('req user: ', req.user);
-  knex("posts")
-    .select()
+  knex
+    .count("advices.post_id")
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .from("posts")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderBy("posts.created_at", "aesc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
-  /////```````inner join / groupby
-  // const p1 =
-  //     knex
-  //         .select('*')
-  //         .from('posts')
-  //         .innerJoin('votes', 'votes.post_id', 'posts.id')
-  //         .then(posts => {
-  //             console.log(posts[0]);
-  //         });
-  // const p2 =
-  //     knex
-  //         .select('*')
-  //         .from('posts')
-  //         .innerJoin('advices', 'advices.post_id', 'posts.id')
-  //         .then(advices => {
-  //             console.log(advices[0]);
-  //         });
-  // Promise.all([p1, p2])
-  //     .then(values => console.log(values))
-  //     .then(()=>{res.render('posts', { posts: posts, advices: advices });})
-  //     .catch(err => console.log(err));
+});
+//s
+app.get("/postssortnewold", authHelpers.loginRequired, (req, res) => {
+    knex
+    .count("advices.post_id")
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .from("posts")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderBy('posts.created_at', 'desc')
+    .then(posts => {
+      res.render("posts", { posts: posts });
+    });
+});
+//s
+app.get("/postssortvic", authHelpers.loginRequired, (req, res) => {
+    knex
+    .count("advices.post_id")
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .from("posts")
+    // .orderBy("posts.created_at", "desc")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderBy("victim", 'desc')
+    .then(posts => {
+      res.render("posts", { posts: posts });
+    });
+});
+//s
+app.get("/postssortcri", authHelpers.loginRequired, (req, res) => {
+    knex
+    .count("advices.post_id")
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .from("posts")
+    // .orderBy("posts.created_at", "desc")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderBy("victim", 'aesc')
+    .then(posts => {
+      res.render("posts", { posts: posts });
+    });
+});
+//s
+app.get("/postssortdoradv", authHelpers.loginRequired, (req, res) => {
+    knex
+    .count("advices.post_id")
+    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .from("posts")
+    .leftJoin("advices", "advices.post_id", "posts.id")
+    .groupBy("posts.id")
+    .orderByRaw("count(advices.post_id) desc")
+    .then(posts => {
+      res.render("posts", { posts: posts });
+    });
+});
+
+app.get("/postssortsiuadv", authHelpers.loginRequired, (req, res) => {
+  knex
+  .count("advices.post_id")
+  .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+  .from("posts")
+  .leftJoin("advices", "advices.post_id", "posts.id")
+  .groupBy("posts.id")
+  .orderByRaw("count(advices.post_id)")
+  .then(posts => {
+    res.render("posts", { posts: posts });
+  });
 });
 
 //update post details
