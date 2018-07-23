@@ -48,15 +48,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //beginning of routes
 app.get("/", (req, res) => {
-  res.render("login", {layout:"mainmeilogin.handlebars"});
+  res.render("login", { layout: "mainmeilogin.handlebars" });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login", {layout:"mainmeilogin.handlebars"});
+  res.render("login", { layout: "mainmeilogin.handlebars" });
 });
 
 app.get("/register", (req, res) => {
-  res.render("register", {layout:"mainmeilogin.handlebars"});
+  res.render("register", { layout: "mainmeilogin.handlebars" });
 });
 
 app.post("/login", (req, res, next) => {
@@ -70,7 +70,7 @@ app.post("/login", (req, res, next) => {
       res.render("loginfail");
     }
     if (user) {
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) {
           handleResponse(res, 500, "error");
           // res.render("/loginfail");
@@ -104,7 +104,7 @@ function handleResponse(res, code, statusMsg) {
 app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
   req.logout();
   // handleResponse(res, 200, "success");
-  res.render("login", {layout:"mainmeilogin.handlebars"});
+  res.render("login", { layout: "mainmeilogin.handlebars" });
 });
 
 // update post
@@ -141,26 +141,26 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
 //update post details
 app.get("/posts/:id", async (req, res) => {
   const id = req.params.id;
-    const post = await knex("posts").where("id", id);
-    const allAdvices = await knex("advices").where("post_id", id);
+  const post = await knex("posts").where("id", id);
+  const allAdvices = await knex("advices").where("post_id", id);
 
-    Promise.all([post, allAdvices])
-      .then(results => {
-        res.render("postdetails", {
-          details: results[0][0],
-          advices: results[1]
-        });
-      })
-      .catch(err => console.log("opppspsspsps", err));
-    });
-    // knex("posts")
-    //   .select()
-    //   .where("id", id)
-    //   .then(details => {
-    //     console.log(details);
-    //     res.render("postdetails", { details: details[0] });
-    //   })
-    //   .catch(err => console.log("opppspsspsps", err));
+  Promise.all([post, allAdvices])
+    .then(results => {
+      res.render("postdetails", {
+        details: results[0][0],
+        advices: results[1]
+      });
+    })
+    .catch(err => console.log("opppspsspsps", err));
+});
+// knex("posts")
+//   .select()
+//   .where("id", id)
+//   .then(details => {
+//     console.log(details);
+//     res.render("postdetails", { details: details[0] });
+//   })
+//   .catch(err => console.log("opppspsspsps", err));
 
 
 
@@ -218,15 +218,15 @@ app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
 
 app.get("/myadvice", authHelpers.loginRequired, (req, res) => {
   knex("advices")
-  .where("user_id", req.user.id)
-  .then(advices => {
-    res.render("myadvice", { advices: advices });
-  });
+    .where("user_id", req.user.id)
+    .then(advices => {
+      res.render("myadvice", { advices: advices });
+    });
 });
 
 app.post("/comment", authHelpers.loginRequired, (req, res) => {
   const data = {
-    content: req.body.content, 
+    content: req.body.content,
     user_id: req.user.id,
     post_id: parseInt(req.body.postId)
   };
@@ -244,7 +244,7 @@ app.post("/comment", authHelpers.loginRequired, (req, res) => {
 
 
 app.get("/infoxxx", (req, res) => {
-  res.render("info", {layout:"infomeilogin.handlebars"});
+  res.render("info", { layout: "infomeilogin.handlebars" });
 });
 
 app.get("/info", (req, res) => {
@@ -266,14 +266,35 @@ app.post("/upload", (req, res) => {
   if (!req.files) return res.status(400).send("No files were uploaded.");
 
   let inputFile = req.files.inputFile;
-  const filePath = "images/" + inputFile.name;
-  inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
-    if (err) return res.status(500).send(err);
+  if (inputFile != null) {
+    const filePath = "images/" + inputFile.name;
+    inputFile.mv(`${__dirname}/public/${filePath}`, function (err) {
+      if (err) return res.status(500).send(err);
 
+      const data = {
+        title: req.body.title,
+        content: req.body.content,
+        image_path: filePath,
+        user_id: req.user.id,
+        victim: req.body.victim || false
+      };
+
+      knex
+        .insert(data)
+        .into("posts")
+        .then(() => {
+          res.redirect("/posts");
+        })
+        .catch(err => {
+          console.log("insert post error: ", err);
+          res.redirect("/posts");
+        });
+    });
+  } else {
     const data = {
       title: req.body.title,
       content: req.body.content,
-      image_path: filePath,
+      image_path: null,
       user_id: req.user.id,
       victim: req.body.victim || false
     };
@@ -288,99 +309,10 @@ app.post("/upload", (req, res) => {
         console.log("insert post error: ", err);
         res.redirect("/posts");
       });
-  });
+  }
 });
 
 app.listen(3000);
-
-
-// //upload & post function
-// app.post("/upload", (req, res) => {
-//   if (!req.files) return res.status(400).send("No files were uploaded.");
-
-//   let inputFile = req.files.inputFile;
-//   let filePath = "images/" + inputFile.name;
-
-// if(inputFile.name!==null){
-//   inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
-//     if (err) return res.status(500).send(err);
-
-//     const data = {
-//       title: req.body.title,
-//       content: req.body.content,
-//       image_path: filePath,
-//       user_id: req.user.id,
-//       victim: req.body.victim || false
-//     };
-
-//     knex
-//       .insert(data)
-//       .into("posts")
-//       .then(() => {
-//         res.redirect("/posts");
-//       })
-//       .catch(err => {
-//         console.log("insert post error: ", err);
-//         res.redirect("/posts");
-//       });
-//   });
-// }else{
-//     const data = {
-//       title: req.body.title,
-//       content: req.body.content,
-//       user_id: req.user.id,
-//       victim: req.body.victim || false
-//     };
-
-//     knex
-//       .insert(data)
-//       .into("posts")
-//       .then(() => {
-//         res.redirect("/posts");
-//       })
-//       .catch(err => {
-//         console.log("insert post error: ", err);
-//         res.redirect("/posts");
-//       });
-//   };
-// });
-
-
-// app.post("/upload", (req, res) => {
-//   if (!req.files) return res.status(400).send("No files were uploaded.");
-
-// let inputFile = req.files.inputFile;
-//   const filePath = "images/" + inputFile.name;
-//   if(inputFile!==null){
-//     inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
-//       if (err) return res.status(500).send(err);
-//     })} else {
-//     console.log("must add image");
-//   };
-
-//     const data = {
-//       title: req.body.title,
-//       content: req.body.content,
-//       image_path: filePath,
-//       user_id: req.user.id,
-//       victim: req.body.victim || false
-//     };
-
-//     knex
-//       .insert(data)
-//       .into("posts")
-//       .then(() => {
-//         res.redirect("/posts");
-//       })
-//       .catch(err => {
-//         console.log("insert post error: ", err);
-//         res.redirect("/posts");
-//       });
-//   });
-
-// app.get("*",(req, res) => {
-//     res.render("404");
-// });
 
 
 
