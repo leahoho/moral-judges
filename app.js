@@ -69,7 +69,7 @@ app.post("/login", (req, res, next) => {
       res.render("loginfail");
     }
     if (user) {
-      req.logIn(user, function (err) {
+      req.logIn(user, function(err) {
         if (err) {
           handleResponse(res, 500, "error");
           // res.render("/loginfail");
@@ -111,7 +111,15 @@ app.get("/logout", authHelpers.loginRequired, (req, res, next) => {
 app.get("/posts", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
@@ -124,11 +132,19 @@ app.get("/posts", authHelpers.loginRequired, (req, res) => {
 app.get("/postssortnewold", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
-    .orderBy('posts.created_at', 'desc')
+    .orderBy("posts.created_at", "desc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
@@ -137,11 +153,19 @@ app.get("/postssortnewold", authHelpers.loginRequired, (req, res) => {
 app.get("/postssortvic", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
-    .orderBy("victim", 'desc')
+    .orderBy("victim", "desc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
@@ -150,11 +174,19 @@ app.get("/postssortvic", authHelpers.loginRequired, (req, res) => {
 app.get("/postssortcri", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
-    .orderBy("victim", 'aesc')
+    .orderBy("victim", "aesc")
     .then(posts => {
       res.render("posts", { posts: posts });
     });
@@ -163,7 +195,15 @@ app.get("/postssortcri", authHelpers.loginRequired, (req, res) => {
 app.get("/postssortdoradv", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
@@ -253,28 +293,6 @@ app.post("/comment", authHelpers.loginRequired, (req, res) => {
     });
 });
 
-// app.delete("/posts/:id", async(req, res) => {
-//   console.log('hi')
-//   let userid = await knex("posts")
-//     .select("user_id")
-//     .where("posts_id", req.params.id);
-
-//     return console.log(userid);
-//   const id = req.params.id;
-
-//   if (req.user.id == user_id) {
-//     if (typeof id != "undefined") {
-//       knex('posts')
-//         .where("id", id)
-//         .del()
-//         .then(() => { res.redirect("posts"); })
-//     } else {
-//       res.redirect("404");
-//     }
-//   }
-// });
-
-
 app.get("/infoxxx", (req, res) => {
   res.render("info", { layout: "infomeilogin.handlebars" });
 });
@@ -291,8 +309,6 @@ app.get("/info", (req, res) => {
 //     });
 // });
 
-
-
 //upload & post function
 app.post("/upload", (req, res) => {
   if (!req.files) return res.status(400).send("No files were uploaded.");
@@ -300,7 +316,7 @@ app.post("/upload", (req, res) => {
   let inputFile = req.files.inputFile;
   if (inputFile != null) {
     const filePath = "images/" + inputFile.name;
-    inputFile.mv(`${__dirname}/public/${filePath}`, function (err) {
+    inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
       if (err) return res.status(500).send(err);
 
       const data = {
@@ -345,9 +361,6 @@ app.post("/upload", (req, res) => {
 });
 
 app.listen(3000);
-
-
-
 
 //// POST route of adding advice(comments)
 ////?? why cant get advice content in postdetails.handlebars???(console.log show "undefined", may be coz no data(eg userid) in db, may needa wait til authen gor bin gao dim)
