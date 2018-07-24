@@ -34,12 +34,10 @@
                             <h5>{{ title }}</h5>
                         </div>
                         {{#if image_path}}
-                        <img src="{{ image_path }} " class="img-thumbnail " style="border:0cm"> {{/if}}
+                        <img src="{{ image_path }} " class="img-thumbnail " style="border:0cm"> {{/if}} {{!--
                         <div class="caption ">
                             <p>{{ content }}</p>
-                        </div>
-
-                        {{#if victim}}
+                        </div> --}} {{#if victim}}
                         <a class="btn btn-primary btn-sm btn-block " style="background-color:#FBD302; border:0cm;" href="/posts/{{id}} ">詳細內容</a>{{else}}
                         <a class="btn btn-primary btn-sm btn-block " href="/posts/{{id}} ">詳細內容</a>{{/if}}
                     </div>
