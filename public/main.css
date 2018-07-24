@@ -24,6 +24,36 @@ body {
   width: 100%;
 }
 
+.banner {
+  background: url("assets/5993cba14f777.jpg") no-repeat center center;
+  background-size: cover;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.detailBanner {
+  background-color: #1c384f;
+  background-size: cover;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+/* 
+.overlay {
+  background: rgba(39,62,84,0.82);
+  overflow: hidden;
+  height: 100%;
+  z-index: 2;
+} */
+
 #minheight {
   min-height: 525px;
 }
