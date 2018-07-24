@@ -9,12 +9,12 @@
 
 <div class="container ">
 
-    <a type="button " class="btn btn-primary btn-sm " href="/postssortnewold ">由新到舊</a>
-    <a type="button " class="btn btn-secondary btn-sm " href="/posts ">由舊到新</a>
-    <a type="button " class="btn btn-success btn-sm " href="/postssortvic ">被害者</a>
-    <a type="button " class="btn btn-danger btn-sm " href="/postssortcri ">受害者</a>
-    <a type="button " class="btn btn-info btn-sm " href="/postssortdoradv ">熱門程度</a>
-    <a type="button " class="btn btn-dark btn-sm " href="/postssortsiuadv ">最冷門</a>
+    <a type="button " class="btn btn-primary btn-ml " href="/postssortnewold ">由新到舊</a>
+    <a type="button " class="btn btn-secondary btn-ml " href="/posts ">由舊到新</a>
+    <a type="button " class="btn btn-success btn-ml " href="/postssortvic ">被害者</a>
+    <a type="button " class="btn btn-danger btn-ml " href="/postssortcri ">受害者</a>
+    <a type="button " class="btn btn-info btn-ml " href="/postssortdoradv ">熱門程度</a>
+    <a type="button " class="btn btn-dark btn-ml " href="/postssortsiuadv ">最冷門</a>
 
     <br/>
     <br/>
@@ -22,19 +22,28 @@
 
     <div class="row text-center ">
         {{#each posts}}
-        <div class="col-md-3 col-sm-6 ">
+        <div class="col-md-3 col-sm-6 " style="margin: 1px 0 1em;">
+
             <div class="img-thumbnail ">
-                {{#if victim}}
-                <p style="font-size:14px ">PostID:{{id}} 匿名被害者</p>{{else}}
-                <p style="font-size:14px ">PostID:{{id}} 匿名犯匪者</p>{{/if}}
                 <div class="caption ">
-                    <p style="font-size:10px ">{{ created_at }}</p>
+                    <p style="font-size:12px ">{{ created_at }}</p>
                 </div>
+                </br>
+                {{#if victim}}
+                <a class="avatar">
+                    <img src="/assets/4.png" width="40px" height="40px">
+                </a>
+                <p style="font-size:14px;margin: 11px 0 1em;">PostID:{{id}} 匿名被害者</p>{{else}}
+                <a class="avatar">
+                    <img src="/assets/3.png" width="40px" height="40px">
+                </a>
+                <p style="font-size:14px;margin: 11px 0 1em;">PostID:{{id}} 匿名犯匪者</p>{{/if}}
+
                 <div class="caption ">
                     <h5>{{ title }}</h5>
                 </div>
                 {{#if image_path}}
-                <img src="{{ image_path }} " class="img-thumbnail "> {{/if}}
+                <img src="{{ image_path }} " class="img-thumbnail " style="border:0cm"> {{/if}}
                 <div class="caption ">
                     <p>{{ content }}</p>
                 </div>
@@ -43,7 +52,7 @@
                 <p>[no. of disupport]</p> --}}
                 <p>留言：{{count}}</p>
                 {{#if victim}}
-                <a class="btn btn-primary btn-sm btn-block " href="/posts/{{id}} ">詳細內容</a>{{else}}
+                <a class="btn btn-primary btn-sm btn-block " style="background-color:#FBD302; border:0cm;" href="/posts/{{id}} ">詳細內容</a>{{else}}
                 <a class="btn btn-primary btn-sm btn-block " href="/posts/{{id}} ">詳細內容</a>{{/if}}
             </div>
         </div>
