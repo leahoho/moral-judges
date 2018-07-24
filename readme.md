@@ -36,8 +36,8 @@ Approximately 3 weeks (2018/7/4-2018/7/24)
 ## Design Approach
 ---
 - Mindmap as a brainstorming tool
-- LucidChart as database designing tool
 - Wireframing and prototyping
+- LucidChart as database designing tool
 
 
 
@@ -65,7 +65,7 @@ Approximately 3 weeks (2018/7/4-2018/7/24)
 - Christy Law 
 - Wilson Lau 
 
-##Acknowledgements
+## Acknowledgements
 ---
 Special thanks to Gordon Lau, Alex Lau, Galileo Chiang and Jeff for consultation.
 
