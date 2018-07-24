@@ -285,7 +285,7 @@ app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
     .groupBy("posts.id")
     .orderBy("posts.created_at", "aesc")
     .then(posts => {
-      res.render("posts", { posts: posts });
+      res.render("mypostlist", { posts: posts });
     });
 });
 
