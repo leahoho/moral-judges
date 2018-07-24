@@ -1,9 +1,17 @@
+{{!--
+<div class='jumbotron detailBanner' style="border-radius: 0px;height: 150px; flex;flex-direction: column;justify-content: center;">
+    <h1>詳細內容</h1>
+</div> --}}
+
+<br/>
 <div class="container">
     <a class="btn btn-secondary btn-md" href="/posts">返回主頁</a>
+    <br/>
+    <br/>
 
     <div class="jumbotron">
 
-        <h6 class="textcenter">～～～～～～～～詳細內容～～～～～～～～</h6>
+        <h2 class="textcenter">詳細內容</h2>
         <p>PostID:{{details.id}}</p>
         {{#if details.victim}}
         <p>匿名被害者(victim)</p>{{else}}
@@ -15,11 +23,29 @@
             <p id="content">標題: {{ details.title }}</p>
         </div>
         {{#if details.image_path}}
-        <img src="http://localhost:3000/{{ details.image_path }}" class="img-thumbnail"> 
-        {{else}}~~~~~~~~~~~~~~~~~~~~此post無圖（無真「相」，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
+        <img src="http://localhost:3000/{{ details.image_path }}" class="img-thumbnail"> {{else}}~~~~~~~~~~~~~~~~~~~~此post無圖（無真「相」，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
         <div>
             <p id="content">內容: {{ details.content }}</p>
         </div>
+    </div>
+
+    <div class="ui comments">
+        <h4>List of Advices (comments)</h4>
+
+        {{#each advices}}
+        <div class="comment">
+            <a class="avatar">
+                <img src="/assets/avatar-user.png">
+            </a>
+            <div class="content">
+                <p style="font-size:12px">建立於:{{ created_at }} 由 UserID : {{user_id}} </p>
+                <p style="font-size:18px">{{ content }}</p>
+
+            </div>
+        </div>
+        {{/each}}
+
+
     </div>
 
     <div class="jumbotron">
@@ -35,22 +61,12 @@
         </div>
     </div>
 
-    <div class="jumbotron">
-        <h4>List of Advices (comments)</h4>
-
-        {{#each advices}}
-        <div class="card">
-            <div class="card-body">
-                <p style="font-size:10px">建立於:{{ created_at }} 由 UserID : {{user_id}} </p>
-                <p style="font-size:18px">{{ content }}</p>
-
-            </div>
-        </div>
-        {{/each}}
-    </div>
 
     <a class="btn btn-secondary btn-md" href="/posts">返回主頁</a>
-<script>
-    
-</script>
+    <script>
+
+    </script>
 </div>
+
+<br/>
+<br/>
