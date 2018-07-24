@@ -1,71 +1,87 @@
-{{!--
-<div class='jumbotron detailBanner' style="border-radius: 0px;height: 1500px; flex;flex-direction: column;justify-content: center;">
-    <h1>詳細內容</h1>
-</div> --}}
+<div class='jumbotron detailBanner overlay' style="border-radius: 0px;height: 250px;display: flex;flex-direction: column;justify-content: center;">
+</div>
 
-<br/>
 <div class="container">
     <a class="btn btn-secondary btn-md" href="/posts">返回主頁</a>
     <br/>
     <br/>
 
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color:#EEFFFF;">
 
-        <h2 class="textcenter">詳細內容</h2>
-        <p>PostID:{{details.id}}</p>
+        {{!--
+        <h2 class="textcenter" style="text-align:left;">詳細內容</h2> --}}
+
+        <p style="font-size:12px;margin: 11px 0 1em;"></p>PostID:{{details.id}}</p>
+
+        <div>
+            <p style="font-size:12px;margin: 11px 0 1em;">建立於: {{ details.created_at }}</p>
+        </div>
+
         {{#if details.victim}}
-        <p>匿名被害者(victim)</p>{{else}}
-        <p>匿名犯匪者(criminal)</p>{{/if}}
-        <div>
-            <p>建立於: {{ details.created_at }}</p>
-        </div>
-        <div>
-            <p id="content">標題: {{ details.title }}</p>
-        </div>
-        {{#if details.image_path}}
-        <img src="/{{ details.image_path }}" class="img-thumbnail"> {{else}}~~~~~~~~~~~~~~~~~~~~此post無圖（無真「相」，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
-        <div>
-            <p id="content">內容: {{ details.content }}</p>
-        </div>
+        <a class="avatar">
+            <img src="/assets/4.png" width="40px" height="40px">
+        </a>
+        <p style="margin: 9px 0 1em;">匿名被害者(victim)</p>{{else}}
+        <a class="avatar">
+            <img src="/assets/3.png" width="40px" height="40px" ;>
+        </a>
+        <p style="margin: 9px 0 1em;">匿名犯匪者(criminal)</p>
+
     </div>
 
-    <div class="ui comments">
-        <h4>List of Advices (comments)</h4>
+    {{/if}}
 
-        {{#each advices}}
-        <div class="comment">
-            <a class="avatar">
-                <img src="/assets/avatar-user.png">
-            </a>
-            <div class="content">
-                <p style="font-size:12px">建立於:{{ created_at }} 由 UserID : {{user_id}} </p>
-                <p style="font-size:18px">{{ content }}</p>
+    <div>
+        <p id="content" style="margin: 11px 0 1em;">標題: {{ details.title }}</p>
+    </div>
+    {{#if details.image_path}}
+    <img src="/{{ details.image_path }}" class="img-thumbnail" style="border:0cm;"> {{else}}~~~~~~~~~~~~~~~~~~~~此post無圖（無真「相」，不過都可以照睇佢既故事既）~~~~~~~~~~~~~~~~~~~~{{/if}}
+    <div>
+        <p id="content">內容: {{ details.content }}</p>
+    </div>
+</div>
 
+</br>
+
+<div class="container ui comments">
+    <h4>List of Advices</h4>
+
+    {{#each advices}}
+    <div class="comment">
+        <a class="avatar">
+            <img src="/assets/avatar-user.png">
+        </a>
+        <div class="content">
+            <p style="font-size:12px">建立於:{{ created_at }} 由 UserID : {{user_id}} </p>
+            <p style="font-size:18px">{{ content }}</p>
+
+        </div>
+    </div>
+    {{/each}}
+
+    </br>
+</div>
+
+<div class="jumbotron container" style="background-color:#EEFFFF">
+    <h4>Give an advice 發表有建設性的建議：</h4>
+    <div>
+        <form action="/comment" method="POST">
+            <div class="form-group">
+                <textarea class="form-control" rows="7" type="text" name="content" placeholder="Advice here..."></textarea>
+                <input hidden name="postId" value="{{details.id}}" />
             </div>
-        </div>
-        {{/each}}
-
-
+            <input type="submit" class="btn btn-primary btn-lg btn-block"></input>
+        </form>
     </div>
+</div>
 
-    <div class="jumbotron">
-        <h4>Give an advice 發表有建設性的建議：</h4>
-        <div>
-            <form action="/comment" method="POST">
-                <div class="form-group">
-                    <textarea class="form-control" rows="7" type="text" name="content" placeholder="Advice here..."></textarea>
-                    <input hidden name="postId" value="{{details.id}}" />
-                </div>
-                <input type="submit" class="btn btn-primary btn-lg btn-block"></input>
-            </form>
-        </div>
-    </div>
-
-
+<div class="container">
     <a class="btn btn-secondary btn-md" href="/posts">返回主頁</a>
-    <script>
+</div>
 
-    </script>
+<script>
+
+</script>
 </div>
 
 <br/>

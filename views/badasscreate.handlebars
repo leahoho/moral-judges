@@ -1,17 +1,26 @@
+<div class='jumbotron roleBanner' style="border-radius: 0px;height: 100px;display: flex;flex-direction: column;justify-content: center;">
+    <h1>咦,你做錯左d咩事呀？</h1>
+</div>
+
+
 <div class="container">
 
-    <div class="jumbotron">
-        <h1 style="text-align: center">咦,你做錯左d咩事呀？</h1>
-    </div>
 
     <div style="width:70%; margin:0 auto;">
-        
+
+        <a class="createImage">
+            <img src="/assets/3.png" width="80px" height="80px">
+
+        </a>
+        <br/>
 
         <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
             <div class="form-group">
                 <input class="form-control" type="text" name="title" placeholder="標題：關於咩事架？">
             </div>
-            <h6>有圖有真相喎～不妨upload埋個真「相」上尼？</h6>
+            {{!--
+            <label> Choose file or image url:</label> --}}
+            <h6>有圖有真相喎</h6>
             <div class="form-group">
                 <input class="form-control" type="file" name="inputFile" />
             </div>
@@ -21,9 +30,9 @@
             <div class="form-group">
                 <input class="btn btn-primary btn-block" type='submit' value='確定' />
             </div>
-            <input type="hidden" name="victim" value=false />
+            <input type="hidden" name="victim" value=true />
         </form>
         <a class="btn btn-secondary btn-sm" href="/role">返回上一頁</a>
-        <div id="minheightaddposts"></div>
     </div>
+    <div id="minheightaddposts"></div>
 </div>

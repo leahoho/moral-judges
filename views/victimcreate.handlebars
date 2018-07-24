@@ -1,17 +1,26 @@
+<div class='jumbotron victimBanner' style="border-radius: 0px;height: 100px;display: flex;flex-direction: column;justify-content: center;">
+    <h1>發生咩事咁慘呀</h1>
+</div>
+
+
 <div class="container">
 
-    <div class="jumbotron">
-        <h1 style="text-align: center">無野MA~發生咩事GUM慘呀:,</h1>
-    </div>
 
     <div style="width:70%; margin:0 auto;">
+
+        <a class="createImage">
+            <img src="/assets/4.png" width="80px" height="80px">
+
+        </a>
+        <br/>
 
         <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
             <div class="form-group">
                 <input class="form-control" type="text" name="title" placeholder="標題：關於咩事架？">
             </div>
-            {{!-- <label> Choose file or image url:</label> --}}
-            <h6>有圖有真相喎～不妨upload埋個真「相」上尼？</h6>
+            {{!--
+            <label> Choose file or image url:</label> --}}
+            <h6>有圖有真相喎</h6>
             <div class="form-group">
                 <input class="form-control" type="file" name="inputFile" />
             </div>
@@ -27,5 +36,3 @@
     </div>
     <div id="minheightaddposts"></div>
 </div>
-
-
