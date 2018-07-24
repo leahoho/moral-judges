@@ -1,5 +1,5 @@
 GIT_REPO=$HOME/moral-judges.git
-PROJECT_DEST=$HOME/moral-judges
+PROJECT_DEST=$HOME/app.js
 
 if [ -d $PROJECT_DEST ];then
     git --work-tree=$PROJECT_DEST --git-dir=$GIT_REPO checkout -f 
