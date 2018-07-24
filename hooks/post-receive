@@ -1,0 +1,16 @@
+GIT_REPO=$HOME/moral-judges.git
+PROJECT_DEST=$HOME/moral-judges
+
+if [ -d $PROJECT_DEST ];then
+    git --work-tree=$PROJECT_DEST --git-dir=$GIT_REPO checkout -f 
+else
+    rm -rf $PROJECT_DEST
+    git clone $GIT_REPO $PROJECT_DEST
+fi
+cd $PROJECT_DEST/
+npm install # if it is a npm repository
+knex migrate:latest
+forever stop ./app.js
+forever start ./app.js
+
+exit
