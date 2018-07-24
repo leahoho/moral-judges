@@ -34,6 +34,18 @@ body {
   align-items: center;
   margin-bottom: 0px;
 }
+
+.detailBanner {
+  background-color: #1c384f;
+  background-size: cover;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
 /* 
 .overlay {
   background: rgba(39,62,84,0.82);
