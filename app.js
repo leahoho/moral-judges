@@ -87,14 +87,20 @@ app.post("/register", (req, res, next) => {
     .then(response => {
       passport.authenticate("local", (err, user, info) => {
         if (user) {
-          // handleResponse(res, 200, "success");
-          res.redirect("/posts");
+          req.logIn(user, function(err) {
+            if (err) {
+              handleResponse(res, 500, err);
+              // res.render("/loginfail");
+            }
+            // handleResponse(res, 200, "success");
+            res.redirect("/posts");
+          });
         }
       })(req, res, next);
     })
     .catch(err => {
-      // handleResponse(res, 500, "error");
-      res.redirect("/registerfail");
+      console.log(err);
+      handleResponse(res, 500, "error");
     });
 });
 
