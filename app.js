@@ -222,7 +222,15 @@ app.get("/postssortdoradv", authHelpers.loginRequired, (req, res) => {
 app.get("/postssortsiuadv", authHelpers.loginRequired, (req, res) => {
   knex
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .from("posts")
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
@@ -261,10 +269,18 @@ app.get("/victim", authHelpers.loginRequired, (req, res) => {
 });
 
 app.get("/mypostlist", authHelpers.loginRequired, (req, res) => {
-    knex("posts")
+  knex("posts")
     .where("posts.user_id", req.user.id)
     .count("advices.post_id")
-    .column("posts.id", "posts.user_id", "image_path", "victim", "title", "posts.content", "posts.created_at")
+    .column(
+      "posts.id",
+      "posts.user_id",
+      "image_path",
+      "victim",
+      "title",
+      "posts.content",
+      "posts.created_at"
+    )
     .leftJoin("advices", "advices.post_id", "posts.id")
     .groupBy("posts.id")
     .orderBy("posts.created_at", "aesc")
