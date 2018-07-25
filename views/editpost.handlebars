@@ -1,0 +1,38 @@
+<div class='jumbotron victimBanner' style="border-radius: 0px;height: 100px;display: flex;flex-direction: column;justify-content: center;">
+    <h1>Edit post - PostID{{details.id}} 「{{details.title}}」 </h1>
+</div>
+
+
+<div class="container">
+
+
+    <div style="width:70%; margin:0 auto;">
+
+        <a class="createImage">
+            <img src="/assets/4.png" width="80px" height="80px">
+
+        </a>
+        <br/>
+
+        <form ref='uploadForm' id='uploadForm' action='/posts/{{details.id}}?_method=PUT' method='post' encType="multipart/form-data">
+            <div class="form-group">
+                <input class="form-control" type="text" name="title" value="{{details.title}}">
+            </div>
+            {{!--
+            <label> Choose file or image url:</label> --}}
+            <h6>有圖有真相喎</h6>
+            <div class="form-group">
+                <input class="form-control" type="file" name="inputFile" />
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="9" type="text" name="content">{{details.content}}</textarea>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary btn-block" type='submit' value='確定' />
+            </div>
+            <input type="hidden" name="victim" value=true />
+        </form>
+        <a class="btn btn-secondary btn-sm" href="/role">返回上一頁</a>
+    </div>
+    <div id="minheightaddposts"></div>
+</div>

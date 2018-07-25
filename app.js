@@ -7,6 +7,7 @@ const passport = require('./auth/local');
 const hb = require('express-handlebars');
 const fileUpload = require('express-fileupload');
 var bodyParser = require('body-parser');
+const methodOverride = require("method-override");
 
 const knex = require('knex')({
   client: 'postgresql',
@@ -45,6 +46,7 @@ app.engine('handlebars', hb({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 //beginning of routes
 app.get('/', (req, res) => {
@@ -69,7 +71,7 @@ app.post('/login', (req, res, next) => {
       res.render('loginfail');
     }
     if (user) {
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) {
           handleResponse(res, 500, 'error');
           // res.render("/loginfail");
@@ -87,7 +89,7 @@ app.post('/register', (req, res, next) => {
     .then(response => {
       passport.authenticate('local', (err, user, info) => {
         if (user) {
-          req.logIn(user, function(err) {
+          req.logIn(user, function (err) {
             if (err) {
               handleResponse(res, 500, err);
               // res.render("/loginfail");
@@ -125,7 +127,7 @@ app.get('/posts', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .from('posts')
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
@@ -146,7 +148,7 @@ app.get('/postssortnewold', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .from('posts')
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
@@ -167,7 +169,7 @@ app.get('/postssortvic', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .from('posts')
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
@@ -188,7 +190,7 @@ app.get('/postssortcri', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .from('posts')
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
@@ -209,7 +211,7 @@ app.get('/postssortdoradv', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .from('posts')
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
@@ -230,7 +232,7 @@ app.get('/postssortsiuadv', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .from('posts')
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
@@ -240,7 +242,7 @@ app.get('/postssortsiuadv', authHelpers.loginRequired, (req, res) => {
     });
 });
 
-//update post details
+//get post details
 app.get('/posts/:id', async (req, res) => {
   const id = req.params.id;
   const post = await knex('posts').where('id', id);
@@ -251,10 +253,105 @@ app.get('/posts/:id', async (req, res) => {
       res.render('postdetails', {
         details: results[0][0],
         advices: results[1],
+        isMine: req.user.id  == results[0][0].user_id //abt button of update showing logic
       });
     })
     .catch(err => console.log('opppspsspsps', err));
 });
+
+//~~~~~~~Get edit post form~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+app.get('/posts/:id/edit', (req, res) => {
+  const id = req.params.id;
+
+  knex('posts')
+    .where('id', id)
+    .then(results => {
+      res.render('editpost', { details: results[0] });
+    })
+    .catch(err => console.log('cant get edit post form', err));
+});
+
+//~~~~~~~PUT update post~~~~~~~~~~~~~~~~~~~~~~~~~~
+app.put("/posts/:id", authHelpers.loginRequired, function (req, res) {
+  let inputFile = req.files.inputFile;
+  if (inputFile != null) {
+    const filePath = 'images/' + inputFile.name;
+    inputFile.mv(`${__dirname}/public/${filePath}`, function (err) {
+      if (err) return res.status(500).send(err);
+      const data = {
+        id: req.params.id,
+        title: req.body.title,
+        content: req.body.content,
+        image_path: filePath,
+        user_id: req.user.id,
+        // victim: req.body.victim || false,
+      };
+      knex('posts')
+        .update(data)
+        .where('id', req.params.id)
+        .where('posts.user_id', req.user.id)
+        .then(() => {
+          res.redirect('/posts/' + req.params.id);
+        })
+        .catch(err => console.log('cant update posts', err));
+    });
+  } else {
+    const data = {
+      id: req.params.id,
+      title: req.body.title,
+      content: req.body.content,
+      image_path: null,
+      user_id: req.user.id,
+      // victim: req.body.victim || false,
+    };
+    knex('posts')
+    .update(data)
+    .where('id', req.params.id)
+    .where('posts.user_id', req.user.id)
+    .then(() => {
+      res.redirect('/posts/' + req.params.id);
+    })
+    .catch(err => console.log('cant update posts', err));
+  }
+});
+//~~~~~~~Deletepost~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// app.delete("/posts/:id", authHelpers.loginRequired, (req,res)=>{
+//   // if (confirm('Are you sure you want to save this thing into the database?')) {
+//     let data = {
+//       id: req.params.id,
+//       title: req.body.title,
+//       content: req.body.content,
+//       image_path: null,
+//       user_id: req.user.id,
+//     if(id == req.session.id){
+//       knex('posts')
+//       .where('posts.user_id', req.user.id)
+//       .where('id', req.params.id)
+//       // .where('posts.user_id', req.user.id)
+//       .delete()
+//       .then(() => {
+//         console.log("bb i love u");
+//         res.redirect('/posts/');
+//       })
+//       .catch(err => console.log('cant update posts', err));
+//     }else{}
+// }
+// }):
+
+
+app.delete("/posts/:id", authHelpers.loginRequired, (req,res)=>{
+    knex('posts')
+    .where('id', req.params.id)
+    .where('posts.user_id', req.user.id)
+    .delete()
+    .then(() => {
+      res.redirect('/posts/');
+    })
+    .catch(err => console.log('cant update posts', err));
+});
+
+
+//~~~~~~~~~~~
 
 app.get('/role', (req, res) => {
   res.render('role');
@@ -280,7 +377,7 @@ app.get('/mypostlist', authHelpers.loginRequired, (req, res) => {
       'title',
       'posts.content',
       'posts.created_at',
-    )
+  )
     .leftJoin('advices', 'advices.post_id', 'posts.id')
     .groupBy('posts.id')
     .orderBy('posts.created_at', 'aesc')
@@ -338,7 +435,7 @@ app.post('/upload', (req, res) => {
   let inputFile = req.files.inputFile;
   if (inputFile != null) {
     const filePath = 'images/' + inputFile.name;
-    inputFile.mv(`${__dirname}/public/${filePath}`, function(err) {
+    inputFile.mv(`${__dirname}/public/${filePath}`, function (err) {
       if (err) return res.status(500).send(err);
 
       const data = {
@@ -380,6 +477,11 @@ app.post('/upload', (req, res) => {
         res.redirect('/posts');
       });
   }
+});
+
+
+app.get('*', (req, res) => {
+  res.render('404');
 });
 
 app.listen(3000);

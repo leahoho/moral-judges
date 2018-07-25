@@ -8,10 +8,9 @@
 
     <div class="jumbotron" style="background-color:#EEFFFF;">
 
-        {{!--
-        <h2 class="textcenter" style="text-align:left;">詳細內容</h2> --}}
-
-        <p style="font-size:12px;margin: 11px 0 1em;"></p>PostID:{{details.id}}</p>
+        {{#if isMine}}<a href="/posts/{{details.id}}/edit">Edit post</a>{{/if}} 
+        {{#if isMine}}<form action="/posts/{{details.id}}?_method=DELETE" method='post'><button>Delete post</button></form>{{/if}}
+        <p style="font-size:12px;margin: 11px 0 1em;">PostID:{{details.id}}</p>
 
         <div>
             <p style="font-size:12px;margin: 11px 0 1em;">建立於: {{ details.created_at }}</p>
